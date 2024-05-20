@@ -23,8 +23,19 @@ export default function RootLayout() {
   }
 
   return (
-    <Stack>
+    <Stack
+      screenOptions={{
+        navigationBarColor: "#0E2954",
+      }}
+    >
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="(menus)"
+        options={{
+          headerShown: false,
+          headerTintColor: "#0E2954",
+        }}
+      />
     </Stack>
   );
 }

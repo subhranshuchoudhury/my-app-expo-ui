@@ -2,25 +2,31 @@ import React from "react";
 import { Tabs } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Entypo from "@expo/vector-icons/Entypo";
-import { View } from "react-native";
+import TiltEffect from "@/components/TiltView";
 
 const TabLayout = () => {
   return (
     <Tabs
+      initialRouteName="index"
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
         tabBarHideOnKeyboard: true,
-        tabBarActiveTintColor: "#3575ff",
-        tabBarInactiveTintColor: "#AEDEFC",
-        tabBarBackground: () => <View className="bg-[#F7FDFD] h-20"></View>,
+        tabBarActiveTintColor: "#2E8A99",
+        tabBarInactiveTintColor: "#F4EEE0",
+        tabBarStyle: {
+          backgroundColor: "#0E2954",
+          borderColor: "#0E2954",
+        },
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
-          tabBarIcon: ({ color }) => (
-            <Entypo name="home" size={40} color={color} />
+          tabBarIcon: ({ color, focused }) => (
+            <TiltEffect loop={focused && true}>
+              <Entypo name="home" size={30} color={color} />
+            </TiltEffect>
           ),
         }}
       />
@@ -33,8 +39,32 @@ const TabLayout = () => {
       <Tabs.Screen
         name="profile"
         options={{
-          tabBarIcon: ({ color }) => (
-            <FontAwesome size={40} name="user" color={color} />
+          headerShown: true,
+          title: "Profile",
+          headerTintColor: "#F4EEE0",
+          headerStyle: {
+            backgroundColor: "#2E8A99",
+          },
+          tabBarIcon: ({ color, focused }) => (
+            <TiltEffect loop={focused && true}>
+              <FontAwesome size={30} name="user" color={color} />
+            </TiltEffect>
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          headerShown: true,
+          title: "Settings",
+          headerTintColor: "#F4EEE0",
+          headerStyle: {
+            backgroundColor: "#2E8A99",
+          },
+          tabBarIcon: ({ color, focused }) => (
+            <TiltEffect loop={focused && true}>
+              <FontAwesome size={30} name="gear" color={color} />
+            </TiltEffect>
           ),
         }}
       />
