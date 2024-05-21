@@ -18,8 +18,8 @@ export default function RootLayout() {
         },
       }}
     >
+      <Stack.Screen options={{ title: "Account" }} name="account" />
       <Stack.Screen options={{ title: "History" }} name="history" />
-      <Stack.Screen options={{ title: "Balance" }} name="balance" />
     </Stack>
   );
 }
