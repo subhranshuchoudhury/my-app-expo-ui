@@ -1,36 +1,11 @@
 import { Text, View } from "react-native";
-import React, { useEffect } from "react";
+import React from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import TiltEffect from "@/components/TiltView";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import BouncyView from "@/components/BouncyView";
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-  interpolateColor,
-} from "react-native-reanimated";
 
 const account = () => {
-  const progress = useSharedValue(0);
-
-  useEffect(() => {
-    progress.value = withTiming(1, { duration: 5000 }, () => {
-      progress.value = withTiming(0, { duration: 5000 });
-    });
-  }, [progress]);
-
-  const animatedStyle = useAnimatedStyle(() => {
-    const color = interpolateColor(
-      progress.value,
-      [0, 0.33, 0.66, 1],
-      ["red", "green", "blue", "yellow"]
-    );
-    return {
-      color,
-    };
-  });
-
   return (
     <View>
       {/* Balance View */}

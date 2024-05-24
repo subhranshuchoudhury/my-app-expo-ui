@@ -1,17 +1,16 @@
 import { View, Text } from "react-native";
 import { Image } from "expo-image";
 import React from "react";
-import { StatusBar } from "expo-status-bar";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { MaterialIcons } from "@expo/vector-icons";
 import BouncyView from "@/components/BouncyView";
 import { Link } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MenuButton from "@/components/MenuButtons";
+
 const Home = () => {
   return (
     <View className="flex-1 bg-[#0E2954]">
-      <StatusBar style="auto" />
       <Image
         contentFit="cover"
         className="w-screen h-[45%]"
