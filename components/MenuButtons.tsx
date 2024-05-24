@@ -19,7 +19,9 @@ const MenuButton: React.FC<MenuButtonProps> = ({
     <TouchableOpacity onPress={() => router.push(routeName)}>
       <View className="flex-col items-center m-2 bg-blue-800 w-16 h-16 rounded-md justify-center">
         {children}
-        <Text className="text-white text-[12px] mt-0.5">{text}</Text>
+        <Text className="text-white text-[12px] mt-0.5 font-[PlayRegular]">
+          {text}
+        </Text>
       </View>
     </TouchableOpacity>
   );

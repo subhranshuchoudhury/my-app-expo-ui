@@ -16,6 +16,8 @@ export default function RootLayout() {
   const [loaded] = useFonts({
     Jersey20Charted: require("../assets/fonts/Jersey20Charted-Regular.ttf"),
     Jaro: require("../assets/fonts/Jaro-Regular.ttf"),
+    PlayBold: require("../assets/fonts/Play-Bold.ttf"),
+    PlayRegular: require("../assets/fonts/Play-Regular.ttf"),
   });
 
   useEffect(() => {

@@ -20,6 +20,15 @@ export default function RootLayout() {
     >
       <Stack.Screen options={{ title: "Account" }} name="account" />
       <Stack.Screen options={{ title: "History" }} name="history" />
+      <Stack.Screen
+        options={{
+          title: "Scanner",
+          presentation: "modal",
+          animation: "fade",
+          animationDuration: 5000,
+        }}
+        name="scanner"
+      />
     </Stack>
   );
 }

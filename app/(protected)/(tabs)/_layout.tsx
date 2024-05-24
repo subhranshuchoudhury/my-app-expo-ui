@@ -30,12 +30,7 @@ const TabLayout = () => {
           ),
         }}
       />
-      <Tabs.Screen
-        name="scan"
-        options={{
-          href: null, // hide the scan route
-        }}
-      />
+
       <Tabs.Screen
         name="profile"
         options={{
