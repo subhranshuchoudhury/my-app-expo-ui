@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Tabs } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Entypo from "@expo/vector-icons/Entypo";
 import TiltEffect from "@/components/TiltView";
+import * as NavigationBar from "expo-navigation-bar";
 
 const TabLayout = () => {
+  useEffect(() => {
+    NavigationBar.setBackgroundColorAsync("#0E2954");
+  }, []);
+
   return (
     <Tabs
       initialRouteName="index"

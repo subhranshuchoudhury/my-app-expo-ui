@@ -1,17 +1,19 @@
 import { useFonts } from "expo-font";
-import { useEffect, useState } from "react";
-import { router, Stack, useSegments } from "expo-router";
+import { useEffect } from "react";
+import { router, Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import "react-native-reanimated";
 import { LogLevel, OneSignal } from "react-native-onesignal";
 import useAuthStore from "@/store/auth-store";
+import { QueryClientProvider } from "@tanstack/react-query";
+import queryClient from "@/utils/ReactQuery";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const { token, removeToken, setToken } = useAuthStore();
-  const segments = useSegments();
+  // const segments = useSegments();
 
   const [loaded] = useFonts({
     Jersey20Charted: require("../assets/fonts/Jersey20Charted-Regular.ttf"),
@@ -21,11 +23,13 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
-    console.log("Token", token);
-    console.log("Segments", segments);
+    // Dev Tools
+    if (__DEV__) {
+      require("../ReactotronConfig");
+    }
 
-    const inAuthGroup = segments[0] === "(auth)";
-    const inProtectedGroup = segments[0] === "(protected)";
+    // const inAuthGroup = segments[0] === "(auth)";
+    // const inProtectedGroup = segments[0] === "(protected)";
 
     if (loaded) {
       try {
@@ -51,23 +55,24 @@ export default function RootLayout() {
   }
 
   return (
-    <Stack>
-      <Stack.Screen
-        name="index"
-        options={{
-          headerShown: false,
-          navigationBarColor: "black",
-          statusBarHidden: true,
-        }}
-      />
-      <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-      <Stack.Screen
-        name="(protected)"
-        options={{
-          headerShown: false,
-          headerTintColor: "#0E2954",
-        }}
-      />
-    </Stack>
+    <QueryClientProvider client={queryClient}>
+      <Stack>
+        <Stack.Screen
+          name="index"
+          options={{
+            headerShown: false,
+            statusBarHidden: true,
+          }}
+        />
+        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="(protected)"
+          options={{
+            headerShown: false,
+            headerTintColor: "#0E2954",
+          }}
+        />
+      </Stack>
+    </QueryClientProvider>
   );
 }

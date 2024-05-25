@@ -8,8 +8,15 @@ import { Link } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MenuButton from "@/components/MenuButtons";
 import TypingEffect from "@/components/TypingEffect";
+import { useQuery } from "@tanstack/react-query";
+import getProducts from "@/api-queries/getProducts";
 
 const Home = () => {
+  const { data, isLoading } = useQuery({
+    queryKey: ["products"],
+    queryFn: getProducts,
+  });
+
   return (
     <View className="flex-1 bg-[#0E2954]">
       <Image
