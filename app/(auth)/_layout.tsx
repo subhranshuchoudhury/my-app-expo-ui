@@ -10,7 +10,10 @@ const AuthLayout = () => {
         options={{
           headerShown: false,
           navigationBarHidden: false,
-          statusBarHidden: true,
+          statusBarStyle: "dark",
+          statusBarTranslucent: true,
+          navigationBarColor: "black",
+          // statusBarHidden: true,
         }}
       />
     </Stack>

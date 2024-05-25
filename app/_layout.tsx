@@ -61,7 +61,7 @@ export default function RootLayout() {
           name="index"
           options={{
             headerShown: false,
-            statusBarHidden: true,
+            statusBarStyle: "dark",
           }}
         />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />

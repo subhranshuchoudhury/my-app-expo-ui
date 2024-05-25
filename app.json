@@ -42,7 +42,8 @@
           "cameraPermission": "We need your permission to use your camera for scanning QR codes",
           "recordAudioAndroid": false
         }
-      ]
+      ],
+      "expo-video"
     ],
     "experiments": {
       "typedRoutes": true
