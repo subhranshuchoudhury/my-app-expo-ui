@@ -71,7 +71,7 @@ const login = () => {
 
       <View className="absolute">
         <Text className="text-white text-4xl font-[Jaro] mt-12 ml-5">
-          Login
+          Register
         </Text>
       </View>
 
@@ -125,10 +125,9 @@ const login = () => {
             </View>
           )}
         </Formik>
-        <Link className="mt-5" href={"/register"}>
+        <Link className="mt-5" href={"/login"}>
           <Text className="text-slate-500 text-xs mt-5 font-[Jaro]">
-            Don't have an account?{" "}
-            <Text className="text-sky-400">Register</Text>
+            Already have an account? <Text className="text-sky-400">Login</Text>
           </Text>
         </Link>
       </KeyboardAvoidingView>

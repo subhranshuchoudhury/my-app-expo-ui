@@ -16,6 +16,17 @@ const AuthLayout = () => {
           // statusBarHidden: true,
         }}
       />
+      <Stack.Screen
+        name="register"
+        options={{
+          headerShown: false,
+          navigationBarHidden: false,
+          statusBarStyle: "dark",
+          statusBarTranslucent: true,
+          navigationBarColor: "black",
+          // statusBarHidden: true,
+        }}
+      />
     </Stack>
   );
 };
