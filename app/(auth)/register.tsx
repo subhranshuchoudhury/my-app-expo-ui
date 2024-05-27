@@ -4,6 +4,7 @@ import {
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
+  ActivityIndicator,
 } from "react-native";
 import React from "react";
 import useAuthStore from "@/store/auth-store";
@@ -12,35 +13,62 @@ import * as Yup from "yup";
 import { FontAwesome } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { useMutation } from "@tanstack/react-query";
-import loginUser from "@/api-queries/postLogin";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
+import registerUser from "@/api-queries/postRegister";
+import Toast from "react-native-toast-message";
 
 const blurhash = "LG7LG#.9WBWA?w%gWBV@.8%MV@Rj";
 
-const login = () => {
+const register = () => {
   const { token, removeToken, setToken } = useAuthStore();
 
-  const loginMutation = useMutation({
-    mutationFn: (variables: { mobile: string; otp: string }) =>
-      loginUser(variables),
+  const router = useRouter();
+
+  const registerMutation = useMutation({
+    mutationFn: (variables: { mobile: string; name: string }) =>
+      registerUser(variables),
+
     onError: (error) => {
-      console.log(error);
+      console.log("error", error);
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: "Try again",
+      });
     },
     onSuccess: (data) => {
+      if (data?.response?.error) {
+        Toast.show({
+          type: "error",
+          text1: data?.response?.error,
+          text2: data?.message,
+        });
+        return;
+      }
+
+      if (data?.status === 201) {
+        router.push(`/login?mobile=${data.data.mobile.replace("+91", "")}`);
+      } else {
+        Toast.show({
+          type: "error",
+          text1: data?.error || "Error",
+          text2: data?.message,
+        });
+      }
       console.log(data);
     },
   });
 
-  const handleLoginSubmit = (e?: { mobile: string; otp: string }) => {
+  const handleLoginSubmit = (e?: { mobile: string; name: string }) => {
     console.log("Data", e);
 
-    if (!e?.mobile || !e?.otp) {
+    if (!e?.mobile || !e?.name) {
       return;
     }
 
-    loginMutation.mutate({
+    registerMutation.mutate({
       mobile: e.mobile,
-      otp: e.otp,
+      name: e.name,
     });
   };
 
@@ -49,10 +77,11 @@ const login = () => {
       .required("Mobile is required")
       .matches(/^[0-9]+$/, "Mobile number should be 10 digits")
       .length(10, "Mobile number should be 10 digits"),
-    otp: Yup.string()
-      .matches(/^[0-9]+$/, "OTP should be a number")
-      .required("OTP is required")
-      .length(4, "OTP should be 4 digits"),
+    name: Yup.string()
+      .required("Name is required")
+      .matches(/^[A-Za-z ]+$/, "Name should contain only alphabets")
+      .max(30, "Name should be less than 30 characters")
+      .min(3, "Name should be more than 3 characters"),
   });
 
   return (
@@ -81,12 +110,24 @@ const login = () => {
         className="w-full justify-center items-center flex-1"
       >
         <Formik
-          initialValues={{ mobile: "", otp: "" }}
+          initialValues={{ mobile: "", name: "" }}
           onSubmit={(values) => handleLoginSubmit(values)}
           validationSchema={yupLoginSchema}
         >
           {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
             <View className="justify-center items-center gap-y-5 w-[70%] bg-white rounded-sm pb-5">
+              <TextInput
+                className="border-b rounded-lg border-black w-[80%] h-10"
+                onChangeText={handleChange("name")}
+                onBlur={handleBlur("name")}
+                value={values.name}
+                placeholder="Name"
+                keyboardType="default"
+              />
+              {errors.name && (
+                <Text className="text-[10px] text-red-400">{errors.name}</Text>
+              )}
+
               <TextInput
                 className="border-b rounded-lg border-black w-[80%] h-10"
                 onChangeText={handleChange("mobile")}
@@ -100,27 +141,20 @@ const login = () => {
                   {errors.mobile}
                 </Text>
               )}
-              <TextInput
-                className="border-b rounded-lg border-black w-[80%] h-10"
-                onChangeText={handleChange("otp")}
-                onBlur={handleBlur("otp")}
-                value={values.otp}
-                placeholder="OTP"
-                keyboardType="numeric"
-              />
-              {errors.otp && (
-                <Text className="text-[10px] text-red-400">{errors.otp}</Text>
-              )}
 
               <TouchableOpacity
-                disabled={loginMutation.isPending ? true : false}
+                disabled={registerMutation.isPending ? true : false}
                 className={[
-                  errors.mobile || errors.otp ? "bg-slate-600" : "bg-sky-400",
+                  errors.mobile || errors.name ? "bg-slate-600" : "bg-sky-400",
                   "h-12 w-12 justify-center items-center rounded-full",
                 ].join(" ")}
                 onPress={() => handleSubmit()}
               >
-                <FontAwesome name="arrow-right" size={24} color="white" />
+                {registerMutation.isPending ? (
+                  <ActivityIndicator size={"small"} color={"white"} />
+                ) : (
+                  <FontAwesome name="arrow-right" size={24} color="white" />
+                )}
               </TouchableOpacity>
             </View>
           )}
@@ -144,4 +178,4 @@ const login = () => {
   );
 };
 
-export default login;
+export default register;

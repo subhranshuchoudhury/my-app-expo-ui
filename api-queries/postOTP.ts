@@ -1,5 +1,6 @@
-const loginUser = async (payload: userLoginPayload) => {
-  console.log("Payload", payload);
+// pre-login
+
+const sendOTP = async (payload: payload) => {
   let headersList = {
     Accept: "*/*",
     "Content-Type": "application/json",
@@ -7,11 +8,10 @@ const loginUser = async (payload: userLoginPayload) => {
 
   let bodyContent = JSON.stringify({
     mobile: `+91${payload.mobile.replaceAll(" ", "")}`,
-    otp: payload.otp.replaceAll(" ", ""),
   });
 
   let response = await fetch(
-    "https://highly-vocal-sponge.ngrok-free.app/auth/login",
+    "https://highly-vocal-sponge.ngrok-free.app/auth/pre-login",
     {
       method: "POST",
       body: bodyContent,
@@ -23,9 +23,8 @@ const loginUser = async (payload: userLoginPayload) => {
   return data;
 };
 
-interface userLoginPayload {
+interface payload {
   mobile: string;
-  otp: string;
 }
 
-export default loginUser;
+export default sendOTP;

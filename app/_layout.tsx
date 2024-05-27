@@ -7,7 +7,7 @@ import { LogLevel, OneSignal } from "react-native-onesignal";
 import useAuthStore from "@/store/auth-store";
 import { QueryClientProvider } from "@tanstack/react-query";
 import queryClient from "@/utils/ReactQuery";
-
+import Toast from "react-native-toast-message";
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
@@ -23,6 +23,7 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
+    // setToken("test");
     // Dev Tools
     if (__DEV__) {
       require("../ReactotronConfig");
@@ -55,24 +56,27 @@ export default function RootLayout() {
   }
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Stack>
-        <Stack.Screen
-          name="index"
-          options={{
-            headerShown: false,
-            statusBarStyle: "dark",
-          }}
-        />
-        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="(protected)"
-          options={{
-            headerShown: false,
-            headerTintColor: "#0E2954",
-          }}
-        />
-      </Stack>
-    </QueryClientProvider>
+    <>
+      <QueryClientProvider client={queryClient}>
+        <Stack>
+          <Stack.Screen
+            name="index"
+            options={{
+              headerShown: false,
+              statusBarStyle: "dark",
+            }}
+          />
+          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="(protected)"
+            options={{
+              headerShown: false,
+              headerTintColor: "#0E2954",
+            }}
+          />
+        </Stack>
+      </QueryClientProvider>
+      <Toast />
+    </>
   );
 }
